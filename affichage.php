@@ -10,10 +10,15 @@
     <ul>
     <?php  
         session_start();
-        $_SESSION['taches'][]=$_POST['tache'];
-        foreach ($_SESSION['taches'] as $tache) {
-            echo "<li>". $tache . "</li>";
+        if (isset($_SESSION['taches'])) {
+           $_SESSION['taches'][]=$_POST['tache'];
+            foreach ($_SESSION['taches'] as $tache) {
+                echo "<li>". $tache . "</li>";
+            }
+        }else{
+            echo "<p>Auccun tache a ete ajouter</p>";
         }
+
     ?>
     </ul>
 </body>
