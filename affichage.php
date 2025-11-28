@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Affich</title>
+    <title>Affchege des taches</title>
 </head>
 <body>
-    <h1>To do</h1>
+    <h1>liste des taches </h1>
     <ul>
-        <?php 
-            echo "<li> la tache:".$_POST['tache']."</li>" ;
-            echo "<li> la discription:".$_POST['tache']."</li>" ;
-        ?>
-    </ul>
-    <?php 
-    //session_start();
-    //var_dump($_SESSION);
+    <?php  
+        session_start();
+        $_SESSION['taches'][]=$_POST['tache'];
+        foreach ($_SESSION['taches'] as $tache) {
+            echo "<li>". $tache . "</li>";
+        }
     ?>
+    </ul>
 </body>
 </html>
