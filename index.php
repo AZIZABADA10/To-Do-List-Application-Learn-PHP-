@@ -29,7 +29,6 @@ if (!isset($_SESSION['tasks'])) {
           </li>
         <?php endforeach; ?>
       </ul>
-      <a class="small danger" href="action.php?action=clear">Tout supprimer</a>
     <?php else: ?>
       <p>Aucune tâche pour l'instant.</p>
     <?php endif; ?>

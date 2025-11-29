@@ -25,13 +25,8 @@ if ($method === 'GET' && isset($_GET['action'])) {
             $_SESSION['tasks'] = array_values($_SESSION['tasks']);
         }
     }
-    if ($action === 'clear') {
-        $_SESSION['tasks'] = [];
-    }
-    header('Location: index.php');
-    exit;
+    
 }
 
-// fallback
 header('Location: index.php');
 exit;
