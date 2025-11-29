@@ -1,24 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<?php
+session_start();
+if (!isset($_SESSION['tasks'])) {
+    $_SESSION['tasks'] = [];
+}
+?>
+<!doctype html>
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To do</title>
+  <meta charset="utf-8">
+  <title>Todo App - Session</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    
-    <h1>To Do</h1>
-    <fieldset>
-        <legend>To Do Form</legend>
-        <form action="affichage.php" method="post">
-            <label for="tache">Tache: </label><br>                      
-            <input type="text" name="tache"><br>
-            <label for="description">Description:</label><br>
-            <textarea name="description" id="id"></textarea><br>
-            <button type="submit">Ajouter Tache</button>
-        </form>
-    </fieldset>
+  <main class="card">
+    <h1>Ma todo list (session)</h1>
+
+    <form action="action.php" method="POST" class="inline-form">
+      <input type="text" name="task" placeholder="Nouvelle tâche..." required>
+      <button type="submit" name="action" value="add">Ajouter</button>
+    </form>
+
+    <?php if (!empty($_SESSION['tasks'])): ?>
+      <ul class="tasks">
+        <?php foreach ($_SESSION['tasks'] as $i => $t): ?>
+          <li>
+            <span><?= htmlspecialchars($t) ?></span>
+            <a class="small" href="action.php?action=delete&index=<?= $i ?>">Supprimer</a>
+          </li>
+        <?php endforeach; ?>
+      </ul>
+      <a class="small danger" href="action.php?action=clear">Tout supprimer</a>
+    <?php else: ?>
+      <p>Aucune tâche pour l'instant.</p>
+    <?php endif; ?>
+  </main>
 </body>
 </html>
