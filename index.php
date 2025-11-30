@@ -1,37 +1,48 @@
 <?php
-session_start();
-if (!isset($_SESSION['tasks'])) {
-    $_SESSION['tasks'] = [];
+$connexion = new mysqli("localhost","root","","to_do_list");
+if ($connexion->connect_error) {
+  die("erreur de connexion:".$connexion->connect_error);
 }
+
+if (isset($_POST["ajouter_tache"])) {
+  $tache =  $_POST["tache"];
+  $connexion -> query("INSERT INTO list_taches (tache) VALUES ('$tache') ");
+  header("Location: index.php");
+}
+$taches = $connexion -> query("SELECT * FROM list_taches");
+
+
 ?>
-<!doctype html>
-<html lang="fr">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Todo App - Session</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo list</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="card">
-    <h1>Ma todo list (session)</h1>
-
-    <form action="action.php" method="POST" class="inline-form">
-      <input type="text" name="task" placeholder="Nouvelle tâche..." required>
-      <button type="submit" name="action" value="add">Ajouter</button>
+  <div class="contaier">
+    <h1>Todo List</h1>
+    <fieldset>
+      <form action="index.php" method="post">
+      <input type="text" name="tache" placeholder="Ajouter votre tache: " id="tache" require>
+      <button type="submit" name="ajouter_tache">Ajouter Tache</button>
     </form>
+    <ul>
+      <?php 
+      if ($taches->num_rows == 0) {
+        echo "<p>Accune tache a été ajouter </p>";
+      }else {
+        
+       while ($row = $taches->fetch_assoc()) {
+        echo "<li>ID:".$row['id']." Tache:".$row['tache']." statut:".$row['statut']."</li>";
+       }
 
-    <?php if (!empty($_SESSION['tasks'])): ?>
-      <ul class="tasks">
-        <?php foreach ($_SESSION['tasks'] as $i => $t): ?>
-          <li>
-            <span><?= htmlspecialchars($t) ?></span>
-            <a class="small" href="action.php?action=delete&index=<?= $i ?>">Supprimer</a>
-          </li>
-        <?php endforeach; ?>
-      </ul>
-    <?php else: ?>
-      <p>Aucune tâche pour l'instant.</p>
-    <?php endif; ?>
-  </main>
+      }
+      ?>
+    </ul>
+    </fieldset>
+  </div>
 </body>
 </html>

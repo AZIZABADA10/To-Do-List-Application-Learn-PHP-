@@ -1,0 +1,35 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: aliceblue;
+}
+
+button {
+    background-color: rgb(31, 31, 132);
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    border: 0px;
+    padding: 8px;
+}
+
+input {
+    height: 20px;
+}
+
+button:hover {
+    background-color: blue;
+    color: white;
+    font-weight: bolder;
+    padding: 9px;
+    box-shadow: 1px 3px 1px gray;
+}
+
+fieldset {
+    background-color: white;
+    border-radius: 8px;
+    border: 0px;
+    box-shadow: 4px 3px 4px 2px gray;
+
+}
