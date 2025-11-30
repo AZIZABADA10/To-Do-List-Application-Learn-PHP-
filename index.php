@@ -9,17 +9,30 @@ if (isset($_POST["ajouter_tache"])) {
   $connexion -> query("INSERT INTO list_taches (tache) VALUES ('$tache') ");
   header("Location: index.php");
 }
-$taches = $connexion -> query("SELECT * FROM list_taches");
 
+if (isset($_GET['supprimer'])) {
+  $id = $_GET['supprimer'];
+  $connexion -> query("DELETE FROM list_taches WHERE id='$id' ");
+}
+
+if (isset($_GET['terminer'])) {
+  $id = $_GET['terminer'];
+  $connexion -> query("UPDATE list_taches SET statut = 'terminer' WHERE id ='$id' ");
+}
+
+$taches = $connexion -> query("SELECT * FROM list_taches");
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Todo list</title>
   <link rel="stylesheet" href="style.css">
+   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+
 </head>
 <body>
   <div class="contaier">
@@ -30,17 +43,17 @@ $taches = $connexion -> query("SELECT * FROM list_taches");
       <button type="submit" name="ajouter_tache">Ajouter Tache</button>
     </form>
     <ul>
-      <?php 
-      if ($taches->num_rows == 0) {
-        echo "<p>Accune tache a été ajouter </p>";
-      }else {
-        
-       while ($row = $taches->fetch_assoc()) {
-        echo "<li>ID:".$row['id']." Tache:".$row['tache']." statut:".$row['statut']."</li>";
-       }
-
-      }
-      ?>
+      <?php while($row = $taches->fetch_assoc()): ?>
+        <li class="li_flex"><div>
+          <b>Tache <?php echo $row['id'] ?>: </b>
+          <?php echo $row['tache'];  ?>
+        </div>
+          <div>
+            <a href="index.php?supprimer=<?php echo $row['id'] ?>"><i class='bx  bx-trash' style='color:#ff0900'></i></a>
+          <a href="index.php?terminer=<?php echo $row['id'] ?>"><?php echo $row['statut']=='terminer'?"<i class='bx  bx-check-circle' style='color:#068b00'></i>":"<i class='bx  bx-check-circle' style='color:red'></i>"  ?></a>
+          </div>
+        </li>
+      <?php endwhile ?>
     </ul>
     </fieldset>
   </div>
